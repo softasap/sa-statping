@@ -8,7 +8,7 @@ setuid {{ statping_user }}
 
 script  
     echo $$ > /var/run/statping.pid
-    exec {{statping_install_dir}}/statping -port {{ statping_port | default(8787) }}
+    exec cd {{statping_install_dir}} && {{statping_install_dir}}/statping -port {{ statping_port | default(8787) }}
 end script
 
 pre-start script  

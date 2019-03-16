@@ -3,6 +3,7 @@ Description=Statping
 
 [Service]
 User=statping
+WorkingDirectory={{statping_install_dir}}
 ExecStart={{statping_install_dir}}/statping -port {{ statping_port | default(8787) }}
 
 [Install]

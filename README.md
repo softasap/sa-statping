@@ -1,7 +1,7 @@
 sa-statping
 ===========
 
-[![Build Status](https://travis-ci.com/softasap/sa-statping.svg?branch=master)](https://travis-ci.com/softasap/sa-statping)
+[![Build Status](https://travis-ci.org/softasap/sa-statping.svg?branch=master)](https://travis-ci.org/softasap/sa-statping)
 
 
 Example of usage:

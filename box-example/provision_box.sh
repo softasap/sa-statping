@@ -1,7 +1,7 @@
 #!/bin/sh
 # Static parameters
 
-REMOTE_HOST=174.138.4.52
+REMOTE_HOST=188.166.79.9
 BOX_DEPLOY_USER=root
 
 WORKSPACE=$(

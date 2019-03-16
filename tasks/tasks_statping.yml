@@ -85,7 +85,7 @@
     when: ansible_service_mgr == "upstart" and statping_exists is failed
 
   - name: Statping | Ensure service started
-    service: name="statping" state="started" enabled="yes"
+    service: name="statping" state="restarted" enabled="yes"
     when: statping_exists is failed and docker_test is not defined
     become: yes
     tags:
