@@ -1,0 +1,8 @@
+server.modules += ("mod_openssl")
+$SERVER["socket"] == "0.0.0.0:443" {
+    ssl.engine = "enable" 
+    ssl.openssl.ssl-conf-cmd = ("Protocol" => "-ALL, TLSv1.2, TLSv1.3") # (recommended to accept only TLSv1.2 and TLSv1.3)
+    ssl.privkey= "/opt/letsencrypt/certs/somedomain.voronenko.net/somedomain.voronenko.net.key" 
+    ssl.pemfile= "/opt/letsencrypt/certs/somedomain.voronenko.net/fullchain.cer" 
+    ssl.ca-file= "/opt/letsencrypt/certs/somedomain.voronenko.net/ca.cer"
+}

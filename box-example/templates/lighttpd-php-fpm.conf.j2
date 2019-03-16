@@ -1,0 +1,15 @@
+# -*- depends: fastcgi -*-
+# /usr/share/doc/lighttpd-doc/fastcgi.txt.gz
+# http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs:ConfigurationOptions#mod_fastcgi-fastcgi
+
+#server.modules += ( "mod_fastcgi" )
+
+index-file.names += ( "index.php" ) 
+
+fastcgi.server = (
+    ".php" => (
+      "localhost" => ( 
+        "socket" => "/var/run/php/php7.2-fpm.sock",
+        "broken-scriptfilename" => "enable"
+      ))
+)
