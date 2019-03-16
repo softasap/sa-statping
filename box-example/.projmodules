@@ -1,3 +1,16 @@
 [submodule "roles/sa-statping"]
         path = roles/sa-statping
         url = https://github.com/softasap/sa-statping.git
+[submodule "roles/sa-nginx"]
+        path = roles/sa-nginx
+        url = https://github.com/softasap/sa-nginx.git
+[submodule "roles/sa-acme-sh"]
+        path = roles/sa-acme-sh
+        url = https://github.com/softasap/sa-acme-sh.git
+[submodule "roles/sa-php-fpm"]
+        path = roles/sa-php-fpm
+        url = https://github.com/softasap/sa-php-fpm.git
+[submodule "roles/sa-include"]
+        path = roles/sa-include
+        url = https://github.com/softasap/sa-include.git
+
