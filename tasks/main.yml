@@ -1,0 +1,3 @@
+---
+# tasks file for sa-statping
+  - include: tasks_statping.yml

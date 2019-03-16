@@ -1,0 +1,7 @@
+---
+# defaults file for sa-statping
+
+statping_version: "0.80.51"
+statping_arch: "linux-x64" #linux-arm6
+statping_user: statping
+statping_group: statping

@@ -1,0 +1,92 @@
+---
+
+  - name: Statping | Check installed
+    shell: test -x {{statping_install_dir}}/statping
+    register: statping_exists
+    ignore_errors: true
+    tags:
+      - statping
+
+  - name: Statping | Create statping group
+    group: name="{{ statping_group }}" state="present"
+    become: yes
+    when: statping_exists is failed    
+    tags:
+      - statping
+
+  - name: Prometheus | Create statping user
+    user:
+      name: "{{ statping_user }}"
+      group: "{{ statping_group }}"
+      comment: "Statping user"
+      shell: "/bin/nologin"
+      createhome: "false"     
+    become: yes
+    when: statping_exists is failed    
+    tags:
+      - prometheus      
+
+  - name: Statping | create install dir
+    file: path="{{ statping_install_dir }}" state="directory" owner="{{ statping_user }}"
+    when: statping_exists is failed
+    become: yes
+    tags:
+      - statping
+
+  - name: Statping | download
+    get_url:
+      url: "https://github.com/hunterlong/statping/releases/download/v{{ statping_version| default('0.80.51') }}/statping-{{ statping_arch| default('linux-x64') }}.tar.gz"
+      dest: "/tmp/statping.tar.gz"
+      mode: u=rwx,g=rx,o=rx
+      force: no
+    when: statping_exists is failed
+    become: yes
+    tags:
+      - statping
+
+  - name: Statping | Unpack
+    unarchive:
+      src: "/tmp/statping.tar.gz"
+      dest: "{{ statping_install_dir }}"
+      remote_src: yes
+    when: statping_exists is failed
+    become: yes
+    tags:
+      - statping
+
+  - name: Statping | Template startup script
+    template: src="{{role_dir}}/templates/statping.systemd.j2" dest="/etc/systemd/system/statping.service"
+    when: ansible_service_mgr == "systemd" and statping_exists is failed
+    become: yes
+    tags:
+      - statping
+
+  - block:
+    
+    - name: Detect start-stop-daemon
+      shell: type start-stop-daemon
+      register: startstop_exists
+      ignore_errors: true
+
+    - name: Statping | Template startup script
+      template: src="{{role_dir}}/templates/statping.amzn.j2" dest="/etc/init/statping.conf"
+      when: startstop_exists is failed 
+      become: yes
+      tags:
+        - statping
+
+    - name: Statping | Template startup script
+      template: src="{{role_dir}}/templates/statping.upstart.j2" dest="/etc/init/statping.conf"
+      when: startstop_exists is failed 
+      become: yes
+      tags:
+        - statping
+
+    when: ansible_service_mgr == "upstart" and statping_exists is failed
+
+  - name: Statping | Ensure service started
+    service: name="statping" state="started" enabled="yes"
+    when: statping_exists is failed and docker_test is not defined
+    become: yes
+    tags:
+      - statping
