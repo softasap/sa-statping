@@ -3,7 +3,7 @@ Description=Statping
 
 [Service]
 User=statping
-ExecStart={{statping_install_dir}}/statping --port {{ statping_port | default(8787) }}
+ExecStart={{statping_install_dir}}/statping -port {{ statping_port | default(8787) }}
 
 [Install]
 WantedBy=multi-user.target

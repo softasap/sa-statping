@@ -6,5 +6,5 @@ stop on runlevel [016]
 respawn
 console log
 
-exec start-stop-daemon --chuid {{statping_user}} --chdir ${HOME} --start --make-pidfile --pid=/var/run/statoing.pid --exec {{statping_install_dir}}/statping -- --port {{ statping_port | default(8787) }}
+exec start-stop-daemon --chuid {{statping_user}} --chdir ${HOME} --start --make-pidfile --pid=/var/run/statoing.pid --exec {{statping_install_dir}}/statping -- -port {{ statping_port | default(8787) }}
 
