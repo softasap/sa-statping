@@ -24,6 +24,12 @@ Advanced
 
      - {
          role: "sa-statping",
+         statping_version: "0.80.51",
+         statping_arch: "linux-x64", #linux-arm6
+         statping_install_dir: /opt/statping,
+         statping_user: statping,
+         statping_group: statping,
+         statping_port: 8787
        }
 
 
