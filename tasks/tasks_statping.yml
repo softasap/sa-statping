@@ -1,16 +1,18 @@
 ---
 
   - name: Statping | Check installed
-    shell: test -x {{statping_install_dir}}/statping
+    shell: test -x {{ statping_install_dir }}/statping
     register: statping_exists
+    changed_when: False
     ignore_errors: true
     tags:
       - statping
+      - skip_ansible_lint
 
   - name: Statping | Create statping group
     group: name="{{ statping_group }}" state="present"
     become: yes
-    when: statping_exists is failed    
+    when: statping_exists is failed
     tags:
       - statping
 
@@ -20,11 +22,11 @@
       group: "{{ statping_group }}"
       comment: "Statping user"
       shell: "/bin/nologin"
-      createhome: "false"     
+      createhome: "false"
     become: yes
-    when: statping_exists is failed    
+    when: statping_exists is failed
     tags:
-      - prometheus      
+      - prometheus
 
   - name: Statping | create install dir
     file: path="{{ statping_install_dir }}" state="directory" owner="{{ statping_user }}"
@@ -43,6 +45,7 @@
     become: yes
     tags:
       - statping
+      - skip_ansible_lint
 
   - name: Statping | Unpack
     unarchive:
@@ -62,22 +65,26 @@
       - statping
 
   - block:
-    
+
     - name: Detect start-stop-daemon
       shell: type start-stop-daemon
       register: startstop_exists
+      changed_when: False
       ignore_errors: true
+      tags:
+        - statping
+        - skip_ansible_lint
 
     - name: Statping | Template startup script
       template: src="{{ role_path }}/templates/statping.amzn.j2" dest="/etc/init/statping.conf"
-      when: startstop_exists is failed 
+      when: startstop_exists is failed
       become: yes
       tags:
         - statping
 
     - name: Statping | Template startup script
       template: src="{{ role_path }}/templates/statping.upstart.j2" dest="/etc/init/statping.conf"
-      when: startstop_exists is failed 
+      when: startstop_exists is failed
       become: yes
       tags:
         - statping
